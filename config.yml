@@ -1,0 +1,22 @@
+name: s1/store-operation
+static:
+  repository:
+    type: git
+    url: git@10.200.51.105:f2e-vue-h5/store-operation.git
+    branch: master
+    version: HEAD
+  server_list:
+   - 10.200.51.223
+   - 10.200.51.224
+  root: /apps/data/web/working/s1.bbgstatic.com/
+  domain_name: https://ssl.bbgstatic.com
+page:
+  repository:
+    type: git
+    url: git@10.200.51.105:f2e-vue-h5/store-operation-page.git
+    branch: master
+    version: HEAD
+  server_list:
+   #- 10.200.53.64
+   #- 10.200.52.183
+  root: /apps/data/web/working/shopmanage.yunhou.com/public/front/

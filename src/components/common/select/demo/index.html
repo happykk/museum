@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>下拉选择</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"
+    />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- js begin -->
+    <script src="/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="/common/readme.js"></script>
+    <script src="/common/demo.js"></script>
+    <script src="/common/code.js"></script>
+    <script src="http://s1.bbgstatic.com/lib/require/2.1/require.js"></script>
+    <!-- js end -->
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <readme>
+# 简介
+- 下拉选择
+- 支持多列
+
+# 安装
+``` js
+import select from 'mk-ui/select.js'
+import 'mk-ui/select.css'
+import 'mk-ui/icon.css' /* 图标 */
+Vue.use(select)
+```
+      </readme>
+      <readme># 自定义</readme>
+      <demo>
+        <mk-select v-model="selectedValue1" :options="{}" @click="selected1"></mk-select>
+      </demo>
+      <textarea name="code">
+<mk-select v-model="selectedValue1" :options="{}" @click="selected1"></mk-select>
+      </textarea>
+      <readme># 单列(demo)</readme>
+      <demo>
+        <mk-select v-model="selectedValue1" :options="{}" @click="selected1" type="primary"></mk-select>
+        <mk-select-pop ref="pop1" v-model="selectedAr1" @sure="sure1">
+          <mk-select-pop-item title="标题1" :default-value="2" v-model="selectedAr1[0]" :options="{data: list}"></mk-select-pop-item>
+        </mk-select-pop>
+      </demo>
+      <textarea name="code">
+// html
+<mk-select v-model="selectedValue1" :options="{}" @click="selected1" type="primary"></mk-select>
+// 弹层，可单独调用
+<mk-select-pop ref="pop" v-model="selectedAr1" @sure="sure1">
+  <mk-select-pop-item title="标题1" :default-value="2" v-model="selectedAr1[0]" :options="{data: list}"></mk-select-pop-item>
+</mk-select-pop>
+
+// js
+selectedValue1: '',
+list: [{text: 't1', value: 1}, {text: 't2', value: 2}, {text: 't3', value: 3}],
+selectedAr1: [],
+// 方法
+selected1 () {
+  this.$refs.pop1.show()
+},
+sure1 () {
+// this.selectedAr1: [{value: 1, text: 't1'}]
+  this.selectedValue1 = this.selectedAr1.map((item)=>{ return item.text }).join('-')
+}
+      </textarea>
+
+      <readme># 多列(demo)</readme>
+      <demo>
+        <mk-select v-model="selectedValue2" :options="{}" @click="selected2"  type="primary"></mk-select>
+        <mk-select-pop ref="pop2" v-model="selectedAr2" @sure="sure2">
+          <mk-select-pop-item title="标题2" v-model="selectedAr2[0]" :options="{data: list}"></mk-select-pop-item>
+          <mk-select-pop-item title="标题3" v-model="selectedAr2[1]" :options="{data: list }"></mk-select-pop-item>
+        </mk-select-pop>
+      </demo>
+      <textarea name="code">
+// html
+<mk-select v-model="selectedValue2" :options="{}" @click="selected2" type="primary"></mk-select>
+// 弹层，可单独调用
+<mk-select-pop ref="pop2" v-model="selectedAr2" @sure="sure2">
+  <mk-select-pop-item title="标题2" v-model="selectedAr2[0]" :options="{data: list}"></mk-select-pop-item>
+  <mk-select-pop-item title="标题3" v-model="selectedAr2[1]" :options="{data: list}"></mk-select-pop-item>
+</mk-select-pop>
+
+// js
+selectedValue2: '',
+list: [{text: 't1', value: 1}, {text: 't2', value: 2}, {text: 't3', value: 3}],
+selectedAr2: [],
+// 方法
+selected2 () {
+  this.$refs.pop2.show()
+},
+sure2 () {
+  // this.selectedAr2: [{value: 1, text: 't1'}, {value: 3, text: 't3'}]
+  this.selectedValue2 = this.selectedAr2.map((item)=>{ return item.text }).join('-')
+}
+</textarea>
+      <readme>
+# mk-select (组件)
+## 属性
+
+|参数|说明|类型|可选值|默认值|
+|-|-|-|-|-|
+|v-model="selectedValue"|选中的值|string
+|type|类型|string|'primary'|
+
+## 事件
+
+|名称|说明|
+|-|-|
+|click|点击调用|
+|clear|点击右边'清除按钮'时调用|
+
+# mk-select-pop (组件)
+底部浮层
+
+## 属性
+|参数|说明|类型|可选值|默认值|返回值
+|-|-|-|-|-|-|
+|v-model="selectedAr"|滚动区域选中的值|Array|||[{value: 1, text: 't1'}, ...]
+
+## 事件
+
+|名称|说明|
+|-|-|
+|shown|展示时调用|
+|cancel|取消时调用|
+|sure|确定时调用|
+
+# mk-select-pop-item (组件)
+滚动层
+
+## options
+|参数|说明|类型|可选值|默认值
+|-|-|-|-|-|
+|data|数据|Array|// 列表: text 表示展示文本, value 表示值<br/>[{text: 't1', value: 1}, {text: 't2', value: 2}, {text: 't3', value: 3}]
+|onlyReturnValue|仅返回value的值(适用于text, value相等的情况, 如：时间组件，日历组件)<br/>1. 若值为false, v-model="selectedAr1[0]" 返回{value:1, text:'t1'}<br/>2. 若值为true, v-model="selectedAr1[0]" 返回1|boolean||false
+
+## 属性
+|参数|说明|类型|可选值|默认值
+|-|-|-|-|-|
+|v-model="selectedAr1[0]"|选中的值(优先级大于default-value(属性))|string|
+|default-value|默认选中的值, 若没有则选中list的第一个值|string
+|title|标题|string
+|row|显示行数 (弹层的高) (必须为奇数: 3, 5, 7)|number||3|
+|position|文本显示位置|string||'center'|
+
+## 事件
+|名称|说明|
+|-|-|
+|scrollEnd|滚动结束时触发|
+|scrollBottom|滚动到底部时触发|
+      </readme>
+    </div>
+  </body>
+<script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      mock: 'https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min', //for test
+      // 'conf/button': 'http://mk-ui.com/button'
+    }
+  });
+
+  require(['conf/select'], function(){
+    var app = new Vue({
+      el: '#app',
+      data: {
+        list: [{text: 't1', value: 1}, {text: 't2', value: 2}, {text: 't3', value: 3}],
+        selectedValue1: '',
+        selectedAr1: [3],
+        //
+        selectedValue2: '',
+        selectedAr2: []
+      },
+      methods: {
+        selected1 () {
+          this.$refs.pop1.show()
+        },
+        sure1 () {
+          this.selectedValue1 = this.selectedAr1.map((item)=>{ return item.text }).join('-')
+        },
+        selected2 () {
+          this.$refs.pop2.show()
+        },
+        sure2 () {
+          this.selectedValue2 = this.selectedAr2.map((item)=>{ return item.text }).join('-')
+        }
+      },
+      mounted () {
+      }
+    })
+  })
+
+  </script>
+</html>

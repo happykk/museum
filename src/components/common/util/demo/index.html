@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>下拉选择</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"
+    />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- js begin -->
+    <script src="/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="/common/readme.js"></script>
+    <script src="/common/demo.js"></script>
+    <script src="/common/code.js"></script>
+    <script src="http://s1.bbgstatic.com/lib/require/2.1/require.js"></script>
+    <!-- js end -->
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <readme>
+# 简介
+- 常用方法收集
+
+# 安装
+``` js
+import { isEmpty, getQueryString ... } 'mk-ui/util.js'
+```
+
+# isEmpty(value)
+检测是否为空，适用于所有类型
+- value: string, Object ...
+
+# deepClone(value)
+深度克隆
+- value: object
+- return: object
+
+# trim(value)
+去两边空格
+
+# getQueryString(value)
+获取地址栏参数
+
+# replaceUrlParam(url, arg, val)
+替换地址栏参数
+- url
+ - type: string
+ - value: 地址
+- arg
+ - type: string
+ - value: 参数名称
+- val
+ - type: string
+ - value: 要替换的值
+
+# refreshPage()
+刷新页面
+
+# debounce(fn, delay)
+去抖
+- fn
+ - type: object
+ - value: function
+- delay
+ - type: number
+ - value: 延迟时间
+
+# formatDate(date, format)
+格式化日期
+- date
+ - type: object | number
+ - value: new Date() | 时间戳
+- format
+ - type: string
+ - value: 'yyyy-MM-dd HH:mm:ss' | 'yyyy-MM-dd' ...
+- return
+ - type: string
+ - value: '00-00-00 ...'
+
+# parseDate(date, format)
+解析日期
+- date
+ - type: string
+ - value: '2010-00-11 12:00:00'
+- format
+ - type: string
+ - value: 'yyyy-MM-dd HH:mm:ss' | 'yyyy-MM-dd' ...
+- return
+ - type: string
+ - value: 'Thu Aug 11 2016 00:00:00 GMT+0800'
+
+# isMobile()
+是否移动端环境
+
+# isAndroid()
+是否安卓环境
+
+# isApp()
+是否app环境
+
+# isWeixin()
+是否微信环境
+
+# isMiniProgram()
+是否小程序环境
+
+
+      </readme>
+    </div>
+  </body>
+<script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      mock: 'https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min', //for test
+      // 'conf/button': 'http://mk-ui.com/button'
+    }
+  });
+
+  require(['conf/util'], function(util){
+    var app = new Vue({
+      el: '#app',
+      data: {
+      },
+      methods: {
+      },
+      mounted () {
+      }
+    })
+  })
+
+  </script>
+</html>

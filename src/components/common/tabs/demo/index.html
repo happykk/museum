@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>选项卡</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"
+    />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- js begin -->
+    <script src="/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="/common/readme.js"></script>
+    <script src="/common/demo.js"></script>
+    <script src="/common/code.js"></script>
+    <script src="http://s1.bbgstatic.com/lib/require/2.1/require.js"></script>
+    <!-- js end -->
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      .selected2 .item { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <readme>
+# 简介
+- 选项卡
+
+# 安装
+``` js
+import tabs from 'mk-ui/tabs.js'
+import 'mk-ui/tabs.css'
+Vue.use(tabs)
+```
+      </readme>
+      <readme># 自定义</readme>
+      <demo>
+        <div style="height: 100px;">
+          <mk-tabs v-model="value" selected-class="selected2">
+            <mk-tabs-item name="v1">
+              <div style="padding: 10px;" slot="tab" class="item">tab1</div>
+              ctn1
+            </mk-tabs-item>
+            <mk-tabs-item name="v2">
+              <div style="padding: 10px;" slot="tab" class="item">tab2</div>
+              ctn2
+            </mk-tabs-item>
+          </mk-tabs>
+        </div>
+      </demo>
+      <textarea name="code">
+// html
+<mk-tabs v-model="value" selected-class="selected2">
+  <mk-tabs-item name="v1">
+    <div style="padding: 10px;" slot="tab" class="item">tab1</div>
+    ctn1
+  </mk-tabs-item>
+  <mk-tabs-item name="v2">
+    <div style="padding: 10px;" slot="tab" class="item">tab2</div>
+    ctn2
+  </mk-tabs-item>
+</mk-tabs>
+// css
+.selected2 .item { background: #eee; }
+      </textarea>
+      <readme># 长下划线</readme>
+      <demo>
+        <div style="height: 100px;">
+          <mk-tabs v-model="value2" @tab-click="c2" type="line" line-bg-color="red">
+            <mk-tabs-item name="v1">
+              <div style="padding: 10px; background: #eee;" slot="tab" class="item">tab1</div>
+              ctn1
+            </mk-tabs-item>
+            <mk-tabs-item name="v2">
+              <div style="padding: 10px; background: #eee;" slot="tab" class="item">tab2</div>
+              ctn2
+            </mk-tabs-item>
+          </mk-tabs>
+        </div>
+      </demo>
+      <textarea name="code">
+<mk-tabs v-model="value2" type="line" line-bg-color="red">
+  ...
+</mk-tabs>
+      </textarea>
+      <readme># 短下划线</readme>
+      <demo>
+        <div style="height: 100px;">
+          <mk-tabs v-model="value3" @tab-click="c2" type="line" line-bg-color="red" line-type="short">
+            <mk-tabs-item name="v1">
+              <div style="padding: 10px; background: #eee;" slot="tab" class="item">tab1</div>
+              ctn1
+            </mk-tabs-item>
+            <mk-tabs-item name="v2">
+              <div style="padding: 10px; background: #eee;" slot="tab" class="item">tab2</div>
+              ctn2
+            </mk-tabs-item>
+          </mk-tabs>
+        </div>
+      </demo>
+      <textarea name="code">
+<mk-tabs v-model="value2" type="line" line-bg-color="red" line-type="short">
+  ...
+</mk-tabs>
+      </textarea>
+      <readme>
+# mk-tabs (组件)
+## 属性
+
+|参数|说明|类型|可选值|默认值|
+|-|-|-|-|-|
+|v-model="value"|选中label的name|string
+|selected-class|选中的样式|string||'selected'|
+|type|类型|string|'line'|
+|line-bg-color|动态下划线颜色|'string'|
+
+## 事件
+|名称|说明|
+|-|-|
+|tab-click|点击回调事件|
+
+# mk-tabs-item (组件)
+
+## 属性
+
+|参数|说明|类型|可选值|默认值|
+|-|-|-|-|-|
+|name|选中的唯一标示|string|
+|tab-id|tab放置的区域|string|
+|ctn-id|ctn放置的区域|string|
+
+## 插槽
+|name|说明|
+|-|-|
+|tab|tab区域||''|
+|default|切换的内容区域||''|
+      </readme>
+    </div>
+  </body>
+<script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      mock: 'https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min', //for test
+      // 'conf/button': 'http://mk-ui.com/button'
+    }
+  });
+
+  require(['conf/tabs'], function(){
+    var app = new Vue({
+      el: '#app',
+      data: {
+        value: 'v1',
+        value2: 'v1',
+        value3: 'v1',
+        t: false
+      },
+      methods: {
+        c2 ({e}) {
+          // console.log(e)
+        }
+      },
+      mounted () {
+        this.value = 'v2'
+      }
+    })
+  })
+
+  </script>
+</html>

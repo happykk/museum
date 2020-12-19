@@ -1,0 +1,4 @@
+build/*.js
+config/*.js
+/src/components/common/icon/iconfont.js
+/src/assets/js/util.js

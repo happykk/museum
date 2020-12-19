@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>导航</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"
+    />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- js begin -->
+    <script src="/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="/common/readme.js"></script>
+    <script src="/common/demo.js"></script>
+    <script src="/common/code.js"></script>
+    <script src="http://s1.bbgstatic.com/lib/require/2.1/require.js"></script>
+    <!-- js end -->
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <readme>
+# 简介
+- 底部导航
+
+# 安装
+``` js
+import 'mk-ui/nav.js'
+import 'mk-ui/nav.css'
+```
+      </readme>
+      <readme># 默认</readme>
+      <demo>
+        <button @click="onShow">点我{{ !show ? '展示' : '隐藏' }}</button>
+      </demo>
+      <textarea name="code">
+// html
+<mk-nav v-model="show" color="#bab4b3" selected-color="#fe7773">
+  <mk-nav-item icon-class="iconfontcom" icon="图标编码" text="默认" @selected="change" selected></mk-nav-item>
+  <mk-nav-item icon-class="iconfontcom" icon="图标编码" text="加点" dot></mk-nav-item>
+  <mk-nav-item icon-class="iconfontcom" icon="图标编码" text="数字" :icon-num="iconNum" ref="navItem"></mk-nav-item>
+  <mk-nav-item img="/static/img/1.png" selected-img="/static/img/2.png" text="切换图片"></mk-nav-item>
+  <mk-nav-item icon-class="iconfontcom" icon="图标编码" text="切换图标" selected-icon="图标编码"></mk-nav-item>
+</mk-nav>
+// js
+show: false // 显示 or 隐藏
+iconNum: 12 // 改变消息数量, 3 秒后变为 50
+      </textarea>
+      <readme>
+# mk-nav 组件
+## v-model=show
+显示或隐藏
+- type: boolean
+
+## color (属性)
+默认颜色
+- type: string
+- value: '#bab4b3'
+
+## selected-color (属性)
+选中的颜色
+- type: string
+- value: '#fe7773'
+
+# mk-nav-item 组件
+## icon-class (属性)
+图标class名称
+- type: string
+- value: 'iconfontcom'
+
+## icon (属性)
+图标码
+- type: string
+- value: '图标编码'
+
+## selected-icon (属性)
+选中的图标
+- type: string
+- value: '图标编码'
+
+## icon-num (属性)
+显示消息条数, 当大于99时显示99+
+- type: number | string
+
+## text (属性)
+文本内容
+- type: string
+
+## dot (属性)
+加点标记
+- type: boolean
+
+## img (属性)
+图标图片路径
+- type: string
+
+## selected-img (属性)
+选中后图片路径
+- type: string
+
+## selected (属性)
+选中当前项
+- type: boolean
+
+## .$on('selected', ({ e, item }) => {})
+选中事件
+
+e 事件对象
+- type: Object
+
+item 当前选中的组件对象
+- type: Object
+      </readme>
+      <mk-nav v-model="show" color="#bab4b3" selected-color="#fe7773">
+        <mk-nav-item icon-class="iconfontcom" icon="&#xe600;" text="默认" @selected="change" selected></mk-nav-item>
+        <mk-nav-item icon-class="iconfontcom" icon="&#xe601;" text="加点" dot></mk-nav-item>
+        <mk-nav-item icon-class="iconfontcom" icon="&#xe600;" text="数字" :icon-num="iconNum" ref="navItem"></mk-nav-item>
+        <mk-nav-item img="/static/img/1.png" selected-img="/static/img/2.png" text="切换图片"></mk-nav-item>
+        <mk-nav-item icon-class="iconfontcom" icon="&#xe601;" text="切换图标" selected-icon="&#xe617;"></mk-nav-item>
+      </mk-nav>
+    </div>
+  </body>
+<script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      mock: 'https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min', //for test
+      // 'conf/button': 'http://mk-ui.com/button'
+    }
+  });
+
+  require(['conf/nav'], function(){
+    var app = new Vue({
+      el: '#app',
+      data: {
+        show: false,
+        iconNum: 12
+      },
+      methods: {
+        onShow () {
+          this.show = !this.show
+        },
+        change (obj) {
+          console.log('change --', obj)
+        }
+      },
+      mounted () {
+        setTimeout(() => {
+          this.iconNum = 50
+        }, 3000)
+      }
+    })
+  })
+
+  </script>
+</html>
