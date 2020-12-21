@@ -26,13 +26,14 @@
           <i class="add-icon" @click="addTicket" v-if="tickets.length<3"></i>
         </h3>
         <div v-for="(item, index) in tickets" :key="index" class="form-content">
-          <span class="del-icon" @click="delTicket(index)"></span>
+          <span class="del-icon" @click="delTicket(index)" v-if="index>0"></span>
           <vantForm ref="vanForm" :rules="rules" inputVail="true" >
             <template slot="items">
               <van-field label="您的姓名：" v-model="item.realName"
                 error-message="请输入姓名~" rule="realName">
               </van-field>
               <van-field v-model="item.cardType" label="证件类型："
+                readonly clickable
                 right-icon="arrow-down"
                 @click="showCardPicker = true"
               />
@@ -41,7 +42,9 @@
               <van-field v-model="item.realPhone" type="tel" label="手机号："
                 error-message="请输入正确的手机号~" rule="realPhone"
               />
-              <van-field v-model="item.children" label="携带小孩数：" @click="showSelectChildren(index)"/>
+              <van-field v-model="item.children" 
+              readonly clickable
+              label="携带小孩数：" @click="showSelectChildren(index)"/>
             </template>
           </vantForm>
         </div>
@@ -79,7 +82,6 @@
         />
       </van-popup>
     </div>
-    <!-- <config @complate="complate"></config> -->
   </section>
 </template>
 
@@ -93,7 +95,7 @@ export default {
   },
   data () {
     return {
-      currentTab: 1,
+      currentTab: 0,
       selectDate: '',
       guideInfo: '',
       appointmentInfo: '',
@@ -143,7 +145,7 @@ export default {
         message: '是否删除该预约人员?'
       }).then(() => {
         this.tickets.splice(index, 1)
-      })
+      }).catch(() => {})
     },
     onConfirmDate (value) {
       this.selectDate = value
@@ -196,14 +198,7 @@ export default {
           if (res.code === 0) {
             Toast.success('预约成功')
             window.scrollTo(0, 0)
-            this.selectDate = ''
-            this.tickets = [{
-              realName: '',
-              idCard: '',
-              cardType: '身份证',
-              realPhone: '',
-              children: ''
-            }]
+            this.$router.push('my-ticket')
           }
         })
       }
@@ -231,15 +226,15 @@ export default {
   },
   created () {
     this.openId = localStorage.getItem('openId')
-    let webMark = getQueryString('state')
-    // 如果是重定向之后的页面且获取不到openId
-    if (webMark === 'redirectUrl' && !this.openId) {
-      let code = getQueryString('code')
-      this.getUserOpenid(code, webMark)
+    if (this.openId) {
       return
     }
-    if (!this.openId) {
-      weixinShouquan()
+    let code = getQueryString('code') // 获取url参数code
+    let state = encodeURIComponent(window.location.href)
+    if (code) { // 拿到code， code传递给后台接口换取opend
+      this.getUserOpenid(code, state)
+    } else {
+      weixinShouquan(state)
     }
   },
   async mounted () {

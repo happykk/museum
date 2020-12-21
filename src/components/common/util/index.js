@@ -211,11 +211,16 @@ export function isMiniProgram () {
   return (window.__wxjs_environment === 'miniprogram') || (navigator.userAgent.toLowerCase().indexOf('miniprogram') !== -1)
 }
 
-export function weixinShouquan () {
+export function weixinShouquan (state) {
   // 未重定向之前 第一次进入的页面
-  let currentUrl = encodeURIComponent(window.location.href)
-  // 重定向到微信授权登录页
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a35828c20838384
-    &redirect_uri=${currentUrl}
-    &response_type=code&scope=snsapi_userinfo&state=redirectUrl&connect_redirect=1#wechat_redirect`
+  // let currentUrl = encodeURIComponent(window.location.href)
+  // // 重定向到微信授权登录页
+  // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a35828c20838384
+  //   &redirect_uri=${currentUrl}
+  //   &response_type=code&scope=snsapi_userinfo&state=redirectUrl&connect_redirect=1#wechat_redirect`
+  let urlNow = encodeURIComponent(window.location.href)
+  let scope = 'snsapi_userinfo' // snsapi_userinfo 静默授权 用户无感知
+  let appid = 'wx3a35828c20838384'
+  let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${urlNow}&response_type=code&scope=${scope}&state=${state}#wechat_redirect`
+  window.location.replace(url)
 }

@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       detail: null,
-      openId: 'oOmVn5seW0rnwygK1wP_Xbn4z1T4'
+      openId: ''
     }
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
     getQrCode () {
       this.$ajax.get('http://115.159.94.87/api/appointment/get_qr_code', {
         ticket_no: this.detail.ticket_no,
-        open_id: 'oOmVn5seW0rnwygK1wP_Xbn4z1T4'
+        open_id: this.openId
       }).then(res => {
         this.creatQrCode(res.data)
       })
@@ -67,11 +67,11 @@ export default {
     }
   },
   mounted () {
+    this.openId = localStorage.getItem('openId')
     if (sessionStorage.getItem('detail')) {
       this.detail = JSON.parse(sessionStorage.getItem('detail'))
       this.getQrCode()
     }
-    this.openId = localStorage.getItem('openId')
   }
 }
 </script>

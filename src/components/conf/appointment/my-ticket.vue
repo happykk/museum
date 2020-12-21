@@ -1,6 +1,6 @@
 <template>
   <section>
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh" v-if="lists.length>0">
       <van-list
         v-model="loading"
         :finished="noMore"
@@ -19,9 +19,9 @@
           <img :src="require('@/assets/images/QR@2x.png')" class="qrcode">
           <span :class="['status', {'success':item.statusAlias=='已取票'}]" v-if="item.statusAlias=='已取票'">{{item.statusAlias}}</span>
         </div>
-        <mk-page-tips :src="require('@/assets/images/empty.png')" text="暂无数据" v-if="!loading && lists.length<1"></mk-page-tips>
       </van-list>
     </van-pull-refresh>
+    <mk-page-tips :src="require('@/assets/images/empty.png')" text="暂无数据" v-if="!loading && lists.length<1"></mk-page-tips>
   </section>
 </template>
 
@@ -36,7 +36,7 @@ export default {
       params: {
         page: 1,
         pageSize: 10,
-        openId: 'oOmVn5seW0rnwygK1wP_Xbn4z1T4'
+        openId: localStorage.getItem('openId')
       },
       loading: false,
       noMore: false,
@@ -69,20 +69,27 @@ export default {
     toDetail (item) {
       sessionStorage.setItem('detail', JSON.stringify(item))
       this.$router.push('detail')
+    },
+    getUserOpenid (code, state) {
+      this.$ajax.get('//museum.likeghost.club/wechat/code', {
+        code: code,
+        state: state
+      }).then(res => {
+        localStorage.setItem('openId', res.data.openid)
+      })
     }
   },
   mounted () {
-    this.openId = localStorage.getItem('openId')
-    let webMark = getQueryString('state')
-    // 如果是重定向之后的页面且获取不到openId
-    // if (webMark === 'redirectUrl' && !this.openId) {
-    //   let code = getQueryString('code')
-    //   this.getUserOpenid(code, webMark)
-    //   return
-    // }
-    // if (!this.openId) {
-    //   weixinShouquan()
-    // }
+    if (this.params.openId) {
+      return
+    }
+    let code = getQueryString('code') // 获取url参数code
+    let state = encodeURIComponent(window.location.href)
+    if (code) { // 拿到code， code传递给后台接口换取opend
+      this.getUserOpenid(code, state)
+    } else {
+      weixinShouquan(state)
+    }
   }
 }
 </script>
