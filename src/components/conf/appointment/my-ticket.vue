@@ -27,6 +27,7 @@
 
 <script>
 import Vue from 'vue'
+import {weixinShouquan, getQueryString} from '@/components/common/util'
 import pageTips from '@/components/common/page-tips'
 Vue.use(pageTips)
 export default {
@@ -71,6 +72,17 @@ export default {
     }
   },
   mounted () {
+    this.openId = localStorage.getItem('openId')
+    let webMark = getQueryString('state')
+    // 如果是重定向之后的页面且获取不到openId
+    // if (webMark === 'redirectUrl' && !this.openId) {
+    //   let code = getQueryString('code')
+    //   this.getUserOpenid(code, webMark)
+    //   return
+    // }
+    // if (!this.openId) {
+    //   weixinShouquan()
+    // }
   }
 }
 </script>

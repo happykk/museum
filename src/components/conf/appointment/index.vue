@@ -25,23 +25,26 @@
           <span class="sub-title">（最多可添加3人）</span>
           <i class="add-icon" @click="addTicket" v-if="tickets.length<3"></i>
         </h3>
-        <vantForm ref="vanForm" :rules="rules" inputVail="true" v-for="(item, index) in tickets" :key="index" class="form-content">
-          <template slot="items">
-            <!-- <span class="index">{{index+1}}</span> -->
-            <van-field label="您的姓名：" v-model="item.realName"
-              error-message="请输入姓名~" rule="realName"/>
-            <van-field v-model="item.cardType" label="证件类型："
-              right-icon="arrow-down"
-              @click="showCardPicker = true"
-            />
-            <van-field v-model="item.idCard" label="证件号码："
-              error-message="请输入正确的证件号~" rule="idCard"/>
-            <van-field v-model="item.realPhone" type="tel" label="手机号："
-              error-message="请输入正确的手机号~" rule="realPhone"
-            />
-            <van-field v-model="item.children" label="携带小孩数：" @click="showSelectChildren(index)"/>
-          </template>
-        </vantForm>
+        <div v-for="(item, index) in tickets" :key="index" class="form-content">
+          <span class="del-icon" @click="delTicket(index)"></span>
+          <vantForm ref="vanForm" :rules="rules" inputVail="true" >
+            <template slot="items">
+              <van-field label="您的姓名：" v-model="item.realName"
+                error-message="请输入姓名~" rule="realName">
+              </van-field>
+              <van-field v-model="item.cardType" label="证件类型："
+                right-icon="arrow-down"
+                @click="showCardPicker = true"
+              />
+              <van-field v-model="item.idCard" label="证件号码："
+                error-message="请输入正确的证件号~" rule="idCard"/>
+              <van-field v-model="item.realPhone" type="tel" label="手机号："
+                error-message="请输入正确的手机号~" rule="realPhone"
+              />
+              <van-field v-model="item.children" label="携带小孩数：" @click="showSelectChildren(index)"/>
+            </template>
+          </vantForm>
+        </div>
       </div>
       <div class="mob-block">
         <h3 class="block-title">参观须知</h3>
@@ -83,7 +86,7 @@
 <script>
 import VantForm from '@/components/common/validate'
 import {weixinShouquan, getQueryString} from '@/components/common/util'
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 export default {
   components: {
     VantForm
@@ -134,6 +137,14 @@ export default {
         children: ''
       })
     },
+    delTicket (index) {
+      Dialog.confirm({
+        title: '提示',
+        message: '是否删除该预约人员?'
+      }).then(() => {
+        this.tickets.splice(index, 1)
+      })
+    },
     onConfirmDate (value) {
       this.selectDate = value
       this.showDatePicker = false
@@ -181,7 +192,7 @@ export default {
           openId: this.openId,
           tickets: JSON.stringify(ticketList)
         }
-        this.$ajax.post('//museum.likeghost.club/act/appointment', params).then(res => {
+        this.$ajax.post('//museum.likeghost.club/users/appointment', params).then(res => {
           if (res.code === 0) {
             Toast.success('预约成功')
             window.scrollTo(0, 0)
@@ -342,18 +353,15 @@ export default {
   .form-content{
     position: relative;
     margin-bottom: 10px;
-    .index{
+    .del-icon{
       position: absolute;
-      top: 12px;
-      left: -16px;
+      top: 8px;
+      left: -18px;
       z-index: 2;
-      width: 19px;
-      text-align: center;
-      line-height: 18px;
-      font-size: 12px;
-      color: rgba(180,23,0,0.60);
-      background: rgba(180,23,0,0.20);
-      border-radius: 0 2px 2px 0;
+      width: 28px;
+      height: 24px;
+      background: url('~@/assets/images/del-icon.png') no-repeat;
+      background-size: 100%;
     }
   }
 }

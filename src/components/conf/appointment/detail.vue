@@ -31,7 +31,8 @@ Vue.use(Toast)
 export default {
   data () {
     return {
-      detail: null
+      detail: null,
+      openId: 'oOmVn5seW0rnwygK1wP_Xbn4z1T4'
     }
   },
   methods: {
@@ -56,7 +57,7 @@ export default {
     handleCancel () {
       this.$ajax.get('http://115.159.94.87/api/appointment/del_qr_code', {
         ticket_no: this.detail.ticket_no,
-        open_id: 'oOmVn5seW0rnwygK1wP_Xbn4z1T4'
+        open_id: this.openId
       }).then(res => {
         if (res.code === 0) {
           this.detail.statusAlias = '已取消'
@@ -70,6 +71,7 @@ export default {
       this.detail = JSON.parse(sessionStorage.getItem('detail'))
       this.getQrCode()
     }
+    this.openId = localStorage.getItem('openId')
   }
 }
 </script>
