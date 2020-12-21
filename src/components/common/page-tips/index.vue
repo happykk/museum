@@ -38,40 +38,40 @@
       background-repeat: no-repeat;
       background-position: 50% 50%;
       background-size: 100%;
-      max-width: 308px;
-      max-height: 266px;
+      max-width: 150px;
+      max-height: 130px;
       display: inline-block;
       font-style: normal;
       img {
-        max-width: 308px;
-        max-height: 266px;
+        max-width: 150px;
+        max-height: 130px;
       }
     }
     .tips-txt {
-      font-size: 30px;
-      margin-top: 30px;
-      color:#333;
+      font-size: 15px;
+      margin-top: 15px;
+      color:#969799;
     }
     .tips-desc {
-      font-size: 28px;
+      font-size: 14px;
       color: #9a9a9a;
     }
     .tips-detail {
       @extend .tips-txt;
       margin-top:4px;
-      font-size:28px;
+      font-size:14px;
       color:#666;
     }
     .tips-btn-box {
-      margin-top:40px;
+      margin-top:20px;
       .ui-btn-line {
-        min-width:150px;
+        min-width:75px;
       }
       .ui-btn-line:nth-child(2) {
-        margin-left:30px;
+        margin-left:15px;
       }
       .ui-btn-block:nth-child(2) {
-        margin-top:20px;
+        margin-top:10px;
       }
     }
   }

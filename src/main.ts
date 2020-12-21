@@ -5,12 +5,11 @@ import { ajax, interceptors } from '@/components/common/ajax'
 import router from './router'
 import store from './store'
 import '@/components/common/reset/index.scss'
-import '@/components/common/icon'
-import './assets/sass/common.scss'
-import '@/components/common/flexible'
-import '@/components/common/loading' // 加载指令
-import { Dialog } from '@/components/common/dialog'
-Vue.use(Dialog)
+import Vant from 'vant'
+import 'vant/lib/index.css'
+Vue.use(Vant)
+import { Toast } from 'vant'
+Vue.use(Toast)
 // 解决移动端点击延迟问题
 import FastClick from 'fastclick'
 const str = navigator.userAgent.toLowerCase()
@@ -26,8 +25,7 @@ if (!ver) {
 }
 
 Vue.prototype.$ajax = ajax
-
-var error = Vue.prototype.$tips
+var error = Toast
 var isPro = (process.env.NODE_ENV === 'production')
 !isPro && (Vue.prototype.$ajax.jsonp = Vue.prototype.$ajax.post)
 
@@ -47,14 +45,14 @@ interceptors.response.use(
     if (response.data.data === null) {
       response.data.data = false
     }
-    if ((!response.data || response.data.error === undefined) && response.data.indexOf('DOCTYPE html') < 0) {
+    if ((!response.data || response.data.code === undefined) && response.data.indexOf('DOCTYPE html') < 0) {
       error('接口格式错误')
       return Promise.resolve(false)
     } else if (response.data) {
-      if (response.data.error === -100) {
+      if (response.data.code === -100) {
         error('未登录')
         return Promise.resolve(false)
-      } else if (Number(response.data.error) !== 0) {
+      } else if (Number(response.data.code) !== 0) {
         if (response.data.msg && response.data.msg.length !== 0) {
           error(response.data.msg)
         } else {

@@ -5,88 +5,79 @@
 export default {
   props: ['type'],
   data () {
-    return {}
+    return {
+      appId: 'wx3a35828c20838384'
+    }
   },
   created () {
-    this.config()
+    var typeinfos = this.judgeOS()
+    var openid = localStorage.getItem('openid')
+    var webMark = this.getQueryString('state')
+    if(!openid && typeinfos=='wx'){ // 如果是微信环境 且获取不到缓存中的openid
+      if (webMark =='redirectUrl'){ // 重定向之后的页面
+        var code = this.getQueryString('code')
+        this.getUserOpenid(code, webMark)
+      } else { // 未重定向之前 第一次进入的页面
+        var currentUrl = encodeURIComponent(window.location.href)
+        // 重定向到微信授权登录页
+        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.appId
+            + '&redirect_uri=' + currentUrl 
+            + '&response_type=code&scope=snsapi_userinfo&state=redirectUrl&connect_redirect=1#wechat_redirect' 
+        // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a35828c20838384&redirect_uri=http://museum.likeghost.club/auth/index.html&response_type=code&scope=snsapi_userinfo&state=http%3A%2F%2Fmuseum.likeghost.club%2Fauth%2Findex.html&connect_redirect=1#wechat_redirect
+      }
+    }
   },
   methods: {
-    getUserId () {
-      return new Promise(resolve => {
-        // alert('执行getCurExternalContact')
-        window.wx.invoke('getCurExternalContact', {}, (res) => {
-          // alert('getCurExternalContact' + res.err_msg)
-          if (res.err_msg === 'getCurExternalContact:ok') {
-            resolve(res.userId) // 返回当前外部联系人userId
-          } else {
-            // 错误处理
-            // this.$tips('getCurExternalContact' + res.err_msg)
-          }
-        })
+    getQueryString (name) {   
+      return decodeURIComponent((new RegExp('[?|&]'+name+'='+'([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g,'%20'))||null;
+    },
+    getUserOpenid (code, state) {
+      this.$ajax.get('//museum.likeghost.club/wechat/code', {
+        code: code,
+        state: state
+      }).then(res => {
+        localStorage.setItem('openId', res.data.openid)
       })
     },
-    getChatId () {
-      return new Promise(resolve => {
-        window.wx.invoke('getCurExternalChat', {}, (res) => {
-          if (res.err_msg === 'getCurExternalChat:ok') {
-            resolve(res.chatId) // 返回当前客户群的群聊ID
-          } else {
-            // 错误处理
-            // this.$tips('getCurExternalChat' + res.err_msg)
-          }
-        })
-      })
-    },
-    config () {
-      this.$ajax.get('//customer.yunhou.com/api/wechat/get_wxconfig', {typeName: this.type === '1' ? 'qunmap' : 'usermap'}).then((res) => {
-        if (res.error !== 0) {
-          return
-        }
-        window.wx.config({
-          beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-          // debug: true, // 开启调试模式,调用的所有api的返回值会在客户端this.$tips出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: res.data.appId, // 必填，企业微信的corpID
-          timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-          nonceStr: res.data.noncestr, // 必填，生成签名的随机串
-          signature: res.data.signature, // 必填，签名，见 附录-JS-SDK使用权限签名算法
-          jsApiList: [] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
-        })
-        window.wx.ready(() => {
-          this.$ajax.get('//customer.yunhou.com/api/wechat/get_wxappconfig', {typeName: this.type === '1' ? 'qunmap' : 'usermap'}).then((res) => {
-            if (res.error !== 0) {
-              return
-            }
-            window.wx.agentConfig({
-              corpid: res.data.corpid, // 必填，企业微信的corpid，必须与当前登录的企业一致
-              agentid: res.data.agentId, // 必填，企业微信的应用id （e.g. 1000247）
-              timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-              nonceStr: res.data.noncestr, // 必填，生成签名的随机串
-              signature: res.data.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-              jsApiList: ['getCurExternalContact', 'getCurExternalChat', 'selectExternalContact'], // 必填
-              success: (res) => {
-                // 回调
-                let workArr = []
-                if (this.type === 'all') {
-                  workArr = [this.getUserId(), this.getChatId()]
-                } else if (this.type === '1') {
-                  workArr = [this.getChatId()]
-                } else {
-                  workArr = [this.getUserId()]
-                }
-                Promise.all(workArr).then((arr) => {
-                  this.$emit('complate', arr)
-                })
-              },
-              fail: function (res) {
-                // this.$tips(res.errMsg)
-                if (res.errMsg.indexOf('function not exist') > -1) {
-                  // this.$tips('版本过低请升级')
-                }
-              }
-            })
-          })
-        })
-      })
+    // 获取code
+    // getCodeApi (state) {
+    //   let data={
+    //     url:location.href
+    //   }
+    //   getWXconfig(data).then((res)=>{
+    //     let Data = res.data
+    //     let appId = Data.appId
+    //     // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作
+    //       wx.config({
+    //         debug: false, // 开启调试模式,开发时可以开启
+    //         appId: Data.appId,   // 必填，公众号的唯一标识   由接口返回
+    //         timestamp: Data.timestamp, // 必填，生成签名的时间戳 由接口返回
+    //         nonceStr: Data.nonceStr,    // 必填，生成签名的随机串 由接口返回
+    //         signature: Data.signature,   // 必填，签名 由接口返回
+    //         jsApiList: [] // 此处填你所用到的方法
+    //     })
+    //     let urlNow = encodeURIComponent(window.location.href)
+    //     let scope='snsapi_base'    //snsapi_userinfo   //静默授权 用户无感知
+    //     let url="http://m.yunbisai.com/wechat/Openid?url="+urlNow
+    //     window.location.replace(url)
+    //   })    
+    // },
+    judgeOS () {
+      let result = -1
+      let u = navigator.userAgent;
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // android终端
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
+      if (isAndroid) { // 判断是哪种设备
+        result = "android"
+      } else if (isiOS) {
+        result = "ios"
+      } else {
+        result = "win"
+      }
+      if (u.toLowerCase().match(/MicroMessenger/i) == "micromessenger") { // 判断是否为微信内置浏览器
+        result = "wx"
+      }
+      return result
     }
   }
 }

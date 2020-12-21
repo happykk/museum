@@ -4,7 +4,7 @@ import Empty from '@/components/common/empty/empty.vue'
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  base: '/store-operation',
+  base: '/museum',
   routes: [{
     path: '/404',
     component: resolve => require(['@/components/common/404/404.vue'], resolve)
@@ -12,35 +12,24 @@ const router = new Router({
     path: '/index',
     component: resolve => require(['@/components/conf/index/index.vue'], resolve)
   }, {
-    path: '/material',
-    component: resolve => require(['@/components/conf/material/index.vue'], resolve)
-  }, {
-    path: '/searchGood',
-    component: resolve => require(['@/components/conf/search-goods/index.vue'], resolve)
-  }, {
-    path: '/coupon',
+    path: '/appointment',
     component: Empty,
-    name: '优惠券',
-    redirect: '/coupon/list',
+    name: '参观预约',
+    redirect: '/appointment/index',
     children: [
       {
-        path: 'list',
-        component: resolve => require(['@/components/conf/coupon/list.vue'], resolve)
+        path: 'index',
+        component: resolve => require(['@/components/conf/appointment/index.vue'], resolve)
       },
       {
         path: 'detail',
-        component: resolve => require(['@/components/conf/coupon/detail.vue'], resolve)
+        component: resolve => require(['@/components/conf/appointment/detail.vue'], resolve)
+      },
+      {
+        path: 'my-ticket',
+        component: resolve => require(['@/components/conf/appointment/my-ticket.vue'], resolve)
       }
     ]
-  }, {
-    path: '/group-portrait',
-    component: resolve => require(['@/components/conf/group-portrait/index.vue'], resolve)
-  }, {
-    path: '/consume-detail',
-    component: resolve => require(['@/components/conf/consume-detail/index.vue'], resolve)
-  }, {
-    path: '/change-shop',
-    component: resolve => require(['@/components/conf/change-shop/index.vue'], resolve)
   }]
 })
 export default router
