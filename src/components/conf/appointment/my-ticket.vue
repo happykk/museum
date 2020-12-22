@@ -1,10 +1,10 @@
 <template>
   <section>
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh" v-if="lists.length>0">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
         v-model="loading"
         :finished="noMore"
-        finished-text="没有更多了"
+        :finished-text="lists.length<1?'':'没有更多了'"
         @load="onLoad"
       >
         <div v-for="(item, index) in lists" 
@@ -59,7 +59,7 @@ export default {
             this.noMore = !res.data.hasNext
           }
         })
-      }, 1000)
+      }, 800)
     },
     onRefresh () {
       this.noMore = false
@@ -75,6 +75,7 @@ export default {
         code: code,
         state: state
       }).then(res => {
+        this.openId = res.data.openid
         localStorage.setItem('openId', res.data.openid)
       })
     }

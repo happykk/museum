@@ -220,6 +220,7 @@ export default {
         code: code,
         state: state
       }).then(res => {
+        this.openId = res.data.openid
         localStorage.setItem('openId', res.data.openid)
       })
     }
