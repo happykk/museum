@@ -87,7 +87,7 @@
 
 <script>
 import VantForm from '@/components/common/validate'
-import {weixinShouquan, getQueryString} from '@/components/common/util'
+// import {weixinShouquan, getQueryString} from '@/components/common/util'
 import { Toast, Dialog } from 'vant'
 export default {
   components: {
@@ -214,29 +214,20 @@ export default {
           this.appointmentInfo = res.data.content
         }
       })
-    },
-    getUserOpenid (code, state) {
-      this.$ajax.get('//museum.likeghost.club/wechat/code', {
-        code: code,
-        state: state
-      }).then(res => {
-        this.openId = res.data.openid
-        localStorage.setItem('openId', res.data.openid)
-      })
     }
   },
   created () {
     this.openId = localStorage.getItem('openId')
-    if (this.openId) {
-      return
-    }
-    let code = getQueryString('code') // 获取url参数code
-    let state = encodeURIComponent(window.location.href)
-    if (code) { // 拿到code， code传递给后台接口换取opend
-      this.getUserOpenid(code, state)
-    } else {
-      weixinShouquan(state)
-    }
+    // if (this.openId) {
+    //   return
+    // }
+    // let code = getQueryString('code') // 获取url参数code
+    // let state = encodeURIComponent(window.location.href)
+    // if (code) { // 拿到code， code传递给后台接口换取opend
+    //   this.getUserOpenid(code, state)
+    // } else {
+    //   weixinShouquan(state)
+    // }
   },
   async mounted () {
     this.getDateList()
@@ -267,7 +258,7 @@ export default {
   .activeL{
     color: #B41700;
     background: url('~@/assets/images/tab1@2x.png') no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
   }
   .activeR{
     color: #B41700;

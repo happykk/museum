@@ -30,6 +30,10 @@ const router = new Router({
         component: resolve => require(['@/components/conf/appointment/my-ticket.vue'], resolve)
       }
     ]
+  }, {
+    path: '/guest-book',
+    name: '留言簿',
+    component: resolve => require(['@/components/conf/guest-book/index.vue'], resolve)
   }]
 })
 export default router
