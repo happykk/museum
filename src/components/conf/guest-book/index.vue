@@ -4,17 +4,17 @@
       <vantForm ref="vanForm" :rules="rules" inputVail="true" >
         <template slot="items">
           <van-field label="您的姓名：" v-model="formData.realName"
-          input-align="right"
+          input-align="right" placeholder="请输入您的姓名"
           error-message="请输入姓名~" rule="realName" />
           <van-field v-model="formData.realPhone" type="tel" label="您的手机号"
-          input-align="right"
+          input-align="right" placeholder="请输入您的手机号"
           error-message="请输入正确的手机号~" rule="realPhone"
           />
           <van-field v-model="formData.email" label="您的邮箱地址"
-          input-align="right"
+          input-align="right" placeholder="请输入您的邮箱"
           error-message="请输入正确的邮箱~" rule="email"/>
           <van-field v-model="formData.content" label="留言内容"
-            rows="5"
+            rows="5" class="textarea-box"
             autosize
             type="textarea"
             maxlength="200"
@@ -130,5 +130,15 @@ export default {
   font-size: 15px;
   background: #B41700;
   border-radius: 6px;
+}
+.textarea-box{
+  display: block;
+  /deep/.van-cell__value{
+    margin: 5px 0;
+    background: rgba(241,240,245,0.60);
+    border: 1px solid #F1F0F5;
+    border-radius: 4px;
+    padding: 14px;
+  }
 }
 </style>
