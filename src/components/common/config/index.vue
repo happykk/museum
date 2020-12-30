@@ -23,7 +23,7 @@ export default {
         window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.appId
             + '&redirect_uri=' + currentUrl 
             + '&response_type=code&scope=snsapi_userinfo&state=redirectUrl&connect_redirect=1#wechat_redirect' 
-        // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a35828c20838384&redirect_uri=http://museum.likeghost.club/auth/index.html&response_type=code&scope=snsapi_userinfo&state=http%3A%2F%2Fmuseum.likeghost.club%2Fauth%2Findex.html&connect_redirect=1#wechat_redirect
+        // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a35828c20838384&redirect_uri=http://admin.xiangtanmuseum.com/auth/index.html&response_type=code&scope=snsapi_userinfo&state=http%3A%2F%2Fadmin.xiangtanmuseum.com%2Fauth%2Findex.html&connect_redirect=1#wechat_redirect
       }
     }
   },
@@ -32,7 +32,7 @@ export default {
       return decodeURIComponent((new RegExp('[?|&]'+name+'='+'([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g,'%20'))||null;
     },
     getUserOpenid (code, state) {
-      this.$ajax.get('//museum.likeghost.club/wechat/code', {
+      this.$ajax.get('//admin.xiangtanmuseum.com/wechat/code', {
         code: code,
         state: state
       }).then(res => {

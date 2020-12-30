@@ -27,7 +27,6 @@
 
 <script>
 import Vue from 'vue'
-import {weixinShouquan, getQueryString} from '@/components/common/util'
 import pageTips from '@/components/common/page-tips'
 Vue.use(pageTips)
 export default {
@@ -46,20 +45,30 @@ export default {
   },
   methods: {
     onLoad () {
-      setTimeout(() => {
-        if (this.refreshing) {
-          this.lists = []
-          this.refreshing = false
+      // setTimeout(() => {
+      //   if (this.refreshing) {
+      //     this.lists = []
+      //     this.refreshing = false
+      //   }
+      //   this.$ajax.get('//admin.xiangtanmuseum.com/users/ticket', this.params).then(res => {
+      //     this.loading = false
+      //     if (res.code === 0) {
+      //       this.lists = this.lists.concat(res.data.lists)
+      //       this.params.page++
+      //       this.noMore = !res.data.hasNext
+      //     }
+      //   })
+      // }, 800)
+      this.$ajax.get('//admin.xiangtanmuseum.com/users/ticket', this.params).then(res => {
+        this.loading = false
+        if (res && res.code === 0) {
+          this.lists = this.lists.concat(res.data.lists)
+          this.params.page++
+          this.noMore = !res.data.hasNext
+        } else {
+          this.noMore = true
         }
-        this.$ajax.get('//museum.likeghost.club/users/ticket', this.params).then(res => {
-          this.loading = false
-          if (res.code === 0) {
-            this.lists = this.lists.concat(res.data.lists)
-            this.params.page++
-            this.noMore = !res.data.hasNext
-          }
-        })
-      }, 800)
+      })
     },
     onRefresh () {
       this.noMore = false
@@ -71,26 +80,19 @@ export default {
       this.$router.push('detail')
     },
     getUserOpenid (code, state) {
-      this.$ajax.get('//museum.likeghost.club/wechat/code', {
+      this.$ajax.get('//admin.xiangtanmuseum.com/wechat/code', {
         code: code,
         state: state
       }).then(res => {
-        this.openId = res.data.openid
-        localStorage.setItem('openId', res.data.openid)
+        if (res && res.code === 0) {
+          this.openId = res.data.openid
+          localStorage.setItem('openId', res.data.openid)
+        }
       })
     }
   },
   mounted () {
-    if (this.params.openId) {
-      return
-    }
-    let code = getQueryString('code') // 获取url参数code
-    let state = encodeURIComponent(window.location.href)
-    if (code) { // 拿到code， code传递给后台接口换取opend
-      this.getUserOpenid(code, state)
-    } else {
-      weixinShouquan(state)
-    }
+    this.openId = localStorage.getItem('openId')
   }
 }
 </script>

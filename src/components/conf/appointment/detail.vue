@@ -47,7 +47,7 @@ export default {
       })
     },
     getQrCode () {
-      this.$ajax.get('http://115.159.94.87/api/appointment/get_qr_code', {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/appointment/get_qr_code', {
         ticket_no: this.detail.ticket_no,
         open_id: this.openId
       }).then(res => {
@@ -55,7 +55,7 @@ export default {
       })
     },
     handleCancel () {
-      this.$ajax.get('http://115.159.94.87/api/appointment/del_qr_code', {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/appointment/del_qr_code', {
         ticket_no: this.detail.ticket_no,
         open_id: this.openId
       }).then(res => {

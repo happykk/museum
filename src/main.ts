@@ -42,7 +42,7 @@ interceptors.request.use(config => {
 interceptors.response.use(
   response => {
     // 避免取对象报错
-    if (response.data.data === null) {
+    if (!response.data.data) {
       response.data.data = false
     }
     if ((!response.data || response.data.code === undefined) && response.data.indexOf('DOCTYPE html') < 0) {

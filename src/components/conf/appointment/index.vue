@@ -87,7 +87,6 @@
 
 <script>
 import VantForm from '@/components/common/validate'
-// import {weixinShouquan, getQueryString} from '@/components/common/util'
 import { Toast, Dialog } from 'vant'
 export default {
   components: {
@@ -124,7 +123,7 @@ export default {
   },
   methods: {
     getDateList () {
-      this.$ajax.get('//museum.likeghost.club/act/conf').then(res => {
+      this.$ajax.get('//admin.xiangtanmuseum.com/act/conf').then(res => {
         if (res.code === 0) {
           this.dateList = res.data.own_select_date
         }
@@ -194,7 +193,7 @@ export default {
           openId: this.openId,
           tickets: JSON.stringify(ticketList)
         }
-        this.$ajax.post('//museum.likeghost.club/users/appointment', params).then(res => {
+        this.$ajax.post('//admin.xiangtanmuseum.com/users/appointment', params).then(res => {
           if (res.code === 0) {
             Toast.success('预约成功')
             window.scrollTo(0, 0)
@@ -207,7 +206,7 @@ export default {
       this.currentTab = val
     },
     getInfo (val) {
-      this.$ajax.get('//museum.likeghost.club/desc/info', {logic_type: val}).then(res => {
+      this.$ajax.get('//admin.xiangtanmuseum.com/desc/info', {logic_type: val}).then(res => {
         if (val === 1) {
           this.guideInfo = res.data.content
         } else {
@@ -218,16 +217,6 @@ export default {
   },
   created () {
     this.openId = localStorage.getItem('openId')
-    // if (this.openId) {
-    //   return
-    // }
-    // let code = getQueryString('code') // 获取url参数code
-    // let state = encodeURIComponent(window.location.href)
-    // if (code) { // 拿到code， code传递给后台接口换取opend
-    //   this.getUserOpenid(code, state)
-    // } else {
-    //   weixinShouquan(state)
-    // }
   },
   async mounted () {
     this.getDateList()
@@ -240,7 +229,6 @@ export default {
 <style lang="scss" scoped>
 .appointment-warpper{
   min-height: 100vh;
-  margin-bottom: 93px;
 }
 .tab-bar{
   height: 38px;
@@ -263,7 +251,7 @@ export default {
   .activeR{
     color: #B41700;
     background: url('~@/assets/images/tab2@2x.png') no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
   }
 }
 .guide-main{
@@ -274,6 +262,7 @@ export default {
   }
 }
 .form-main{
+  padding-bottom: 95px;
   .mob-block{
     background: #fff;
     padding: 10px 16px;

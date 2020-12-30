@@ -99,7 +99,7 @@ export default {
           openId: this.openId,
           tickets: JSON.stringify(ticketList)
         }
-        this.$ajax.post('//museum.likeghost.club/users/appointment', params).then(res => {
+        this.$ajax.post('//admin.xiangtanmuseum.com/users/appointment', params).then(res => {
           if (res.code === 0) {
             Toast.success('预约成功')
             window.scrollTo(0, 0)
