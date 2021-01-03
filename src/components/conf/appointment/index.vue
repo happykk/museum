@@ -216,6 +216,7 @@ export default {
     }
   },
   created () {
+    document.title = '门票预约'
     this.openId = localStorage.getItem('openId')
   },
   async mounted () {

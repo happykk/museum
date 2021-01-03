@@ -34,6 +34,29 @@ const router = new Router({
     path: '/guest-book',
     name: '留言簿',
     component: resolve => require(['@/components/conf/guest-book/index.vue'], resolve)
+  }, {
+    path: '/display-list',
+    name: '基本陈列',
+    component: Empty,
+    redirect: '/display-list/index',
+    children: [
+      {
+        path: 'index',
+        component: resolve => require(['@/components/conf/display-list/index.vue'], resolve)
+      },
+      {
+        path: 'detail',
+        component: resolve => require(['@/components/conf/display-list/detail.vue'], resolve)
+      },
+      {
+        path: 'cate-detail',
+        component: resolve => require(['@/components/conf/display-list/cate-detail.vue'], resolve)
+      },
+      {
+        path: 'pro-detail',
+        component: resolve => require(['@/components/conf/display-list/pro-detail.vue'], resolve)
+      }
+    ]
   }]
 })
 export default router

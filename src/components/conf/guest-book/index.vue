@@ -110,6 +110,7 @@ export default {
     }
   },
   created () {
+    document.title = '留言簿'
     this.openId = localStorage.getItem('openId')
   }
 }

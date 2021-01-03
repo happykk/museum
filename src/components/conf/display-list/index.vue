@@ -7,7 +7,12 @@
         :finished-text="lists.length<1?'':'没有更多了'"
         @load="onLoad"
       >
-        <div v-for="(item, index) in lists" 
+      <div class="list-item" @click="toDetail">
+        <img :src="require('@/assets/images/list-img.png')" class="img">
+        <h3 class="name">基本陈列名称</h3>
+        <p class="desc">陈列简介陈列简介陈列简介陈列简介陈列简介陈列简介陈列简介陈列简介陈列简介陈列简介陈列</p>
+      </div>
+        <!-- <div v-for="(item, index) in lists" 
           :key="index" class="list-item" 
           :class="{'fail': item.statusAlias=='已取消'||item.statusAlias=='已过期'}"
           @click="toDetail(item)">
@@ -18,7 +23,7 @@
           </div>
           <img :src="require('@/assets/images/QR@2x.png')" class="qrcode">
           <span :class="['status', {'success':item.statusAlias=='已取票'}]" v-if="item.statusAlias=='已取票'">{{item.statusAlias}}</span>
-        </div>
+        </div> -->
       </van-list>
     </van-pull-refresh>
     <mk-page-tips :src="require('@/assets/images/empty.png')" text="暂无数据" v-if="!loading && lists.length<1"></mk-page-tips>
@@ -67,74 +72,42 @@ export default {
       this.onLoad()
     },
     toDetail (item) {
-      sessionStorage.setItem('detail', JSON.stringify(item))
       this.$router.push('detail')
-    },
-    getUserOpenid (code, state) {
-      this.$ajax.get('//admin.xiangtanmuseum.com/wechat/code', {
-        code: code,
-        state: state
-      }).then(res => {
-        if (res && res.code === 0) {
-          this.openId = res.data.openid
-          localStorage.setItem('openId', res.data.openid)
-        }
-      })
     }
   },
   mounted () {
-    document.title = '我的预约'
+    document.title = '基本陈列'
     this.openId = localStorage.getItem('openId')
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .list-item{
-    position: relative;
-    padding: 20px 40px 20px 24px;
-    background: #fff;
-    border-radius: 10px;
-    margin: 12px 16px 0;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    .item-info{
-      h3{
-        font-size: 18px;
-        font-weight: 500;
-        color: #161616;
-        line-height: 26px;
-      }
-      .time{
-        margin: 10px 0;
-      }
-      .time, .card-num{
-        font-size: 13px;
-        color: rgba(22,22,22,0.40);
-      }
-    }
-    .qrcode{
-      width: 50px;
-    }
-    .status{
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 68px;
-      height: 22px;
-      font-size: 12px;
-      line-height: 21px;
-      text-align: center;
-      border-radius: 0 6px 0 21px;
-    }
-    .success{
-      color: #B41700;
-      background: #F0D1CC;
-    }
+.list-item{
+  padding: 10px 10px 12px;
+  background: #fff;
+  border-radius: 10px;
+  margin: 16px 16px 0;
+  .img{
+    width: 324px;
+    height: 138px;
+    object-fit: cover;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: 5px;
   }
-  .fail{
-    background: rgba(102,102,102,0.1);
-    opacity: 0.7;
+  h3{
+    font-size: 14px;
+    font-weight: 500;
+    color: #161616;
+    margin: 5px 0;
   }
+  p{
+    font-size: 12px;
+    color: rgba(22,22,22,0.40);
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+}
 </style>

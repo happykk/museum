@@ -67,6 +67,7 @@ export default {
     }
   },
   mounted () {
+    document.title = '我的预约'
     this.openId = localStorage.getItem('openId')
     if (sessionStorage.getItem('detail')) {
       this.detail = JSON.parse(sessionStorage.getItem('detail'))
