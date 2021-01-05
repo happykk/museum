@@ -69,15 +69,7 @@ const router = new Router({
       },
       {
         path: 'detail',
-        component: resolve => require(['@/components/conf/display-list/detail.vue'], resolve)
-      },
-      {
-        path: 'cate-detail',
-        component: resolve => require(['@/components/conf/display-list/cate-detail.vue'], resolve)
-      },
-      {
-        path: 'pro-detail',
-        component: resolve => require(['@/components/conf/display-list/pro-detail.vue'], resolve)
+        component: resolve => require(['@/components/conf/good-list/detail.vue'], resolve)
       }
     ]
   }]

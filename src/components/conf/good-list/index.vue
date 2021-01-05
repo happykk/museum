@@ -3,40 +3,25 @@
     <div class="header">
       <div class="tab">
         <ul>
-          <li class="active">分类</li>
-          <li>分类</li>
-          <li>分类</li>
+          <li :class="current==index?'active':''" v-for="(item, index) in cates" :key="index" @click="changeTab(item, index)">{{item.name}}</li>
         </ul>
       </div>
       <van-search
-        left-icon=""
-        right-icon="search"
-        v-model="params.keywords"
+        v-model="word"
         placeholder="请输入商品名称"
         @search="onLoad"
-        @cancel="onCancel" />
+        @clear="onCancel"
+      />
     </div>
-    <van-list
-      v-model="loading"
-      :finished="noMore"
-      :finished-text="lists.length<1?'':'没有更多了'"
-      @load="onLoad"
-    >
-      <div class="list">
-        <div class="list-item" @click="goToPage">
-          <img src="" alt="">
-          <span>藏品名称</span>
-        </div>
-        <div class="list-item">
-          <img src="" alt="">
-          <span>藏品名称</span>
-        </div>
-        <div class="list-item">
-          <img src="" alt="">
-          <span>藏品名称</span>
-        </div>
+    <div class="list">
+      <div class="list-item" v-for="item in lists" :key="item.id" @click="goToPage(item)">
+        <van-image
+          lazy-load
+          :src="'http://admin.xiangtanmuseum.com/static/image/'+item.img"
+        ></van-image>
+        <span>{{item.name}}</span>
       </div>
-    </van-list>
+    </div>
     <mk-page-tips :src="require('@/assets/images/empty.png')" text="暂无数据" v-if="!loading && lists.length<1"></mk-page-tips>
   </section>
 </template>
@@ -44,47 +29,69 @@
 <script>
 import Vue from 'vue'
 import { Search } from 'vant'
+import {getQueryString} from '@/components/common/util'
 import pageTips from '@/components/common/page-tips'
 Vue.use(pageTips)
 Vue.use(Search)
 export default {
   data () {
     return {
-      params: {
-        page: 1,
-        pageSize: 10,
-        keywords: '',
-        openId: localStorage.getItem('openId')
-      },
-      loading: false,
-      noMore: false,
+      loading: true,
+      cates: [],
+      type: getQueryString('type'),
+      word: '',
+      id: '',
+      current: 0,
       lists: []
     }
   },
   methods: {
     onLoad () {
-      this.$ajax.get('//admin.xiangtanmuseum.com/users/ticket', this.params).then(res => {
+      console.log(this.word)
+      this.$ajax.get('//api.xiangtanmuseum.com/api/ancient/coll_list', {
+        word: this.word,
+        id: this.id
+      }).then(res => {
         this.loading = false
         if (res.code === 0) {
-          this.lists = this.lists.concat(res.data.lists)
-          this.params.page++
-          this.noMore = !res.data.hasNext
+          this.lists = res.data || []
         }
       })
     },
-    onCancel () {
-      this.params.keywords = ''
-      this.lists = []
-      this.params.page = 1
-      this.noMore = false
+    getCateList () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/ancient/cate_list', {type: this.type}).then(res => {
+        this.loading = false
+        if (res.code === 0) {
+          this.cates = res.data || []
+          this.id = 0
+          this.cates.unshift({id: 0, name: '全部'})
+          this.onLoad()
+        }
+      })
     },
-    toDetail (item) {
-      this.$router.push('detail')
+    changeTab (item, index) {
+      this.current = index
+      this.id = item.id
+      this.onLoad()
+    },
+    onCancel () {
+      this.word = ''
+      this.lists = []
+      console.log(this.word)
+      this.onLoad()
+    },
+    goToPage (item) {
+      this.$router.push({
+        path: 'detail',
+        query: {
+          id: item.id
+        }
+      })
     }
   },
   mounted () {
     document.title = '文创商品'
-    this.openId = localStorage.getItem('openId')
+    this.getCateList()
   }
 }
 </script>
@@ -96,18 +103,14 @@ export default {
   width: 100%;
   background: #fff;
   .tab{
-    overflow: hidden;
+    overflow-x: auto;
     ul{
-      // white-space: nowrap;
-      // display: inline-block; // 必须设置inline-block，否则无法被li撑开
-      // li{
-      //   display: inline-block;
-      // }
+      white-space: nowrap;
+      display: inline-block; // 必须设置inline-block，否则无法被li撑开
       margin: 6px 20px 0;
       overflow-x: auto;
-      display: flex;
       li{
-        flex: 1;
+        display: inline-block;
         margin-right: 40px;
         font-size: 14px;
         font-weight: 500;
@@ -133,14 +136,16 @@ export default {
     background: #fff;
     border-radius: 10px;
     text-align: center;
-    img{
-      width: 143px;
-      height: 143px;
-      object-fit: cover;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-      display: block;
+    .van-image{
       margin: auto;
+      /deep/img{
+        display: block;
+        width: 143px;
+        height: 143px;
+        object-fit: cover;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
     }
     span{
       font-size: 14px;

@@ -1,8 +1,11 @@
 <template>
   <section>
     <div class="mod-block">
-      <img :src="require('@/assets/images/list-img.png')" class="img">
-      <h3 class="title">陈列主题名称</h3>
+      <van-image v-if="dataInfo"
+        lazy-load
+        :src="'http://admin.xiangtanmuseum.com/static/image/'+dataInfo.img"
+      ></van-image>
+      <h3 class="title">{{dataInfo.act_name}}</h3>
       <ul class="info">
         <li class="view-cell">
           <p>展出日期</p>
@@ -20,9 +23,7 @@
     </div>
     <div class="mod-block desc">
       <h4 class="title">主题简介</h4>
-      <div class="content">
-        主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介主题图文简介
-      </div>
+      <div class="content" v-html="dataInfo.context"></div>
     </div>
     <div class="mod-block desc">
       <h4 class="title">展品列表</h4>
@@ -43,21 +44,30 @@
 </template>
 
 <script>
+import {getQueryString} from '@/components/common/util'
 export default {
   data () {
     return {
-      loading: false,
-      lists: []
+      dataInfo: '',
+      lists: [],
+      id: getQueryString('id')
     }
   },
   methods: {
+    getData () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/act/info', {id: this.id}).then(res => {
+        if (res.code === 0) {
+          this.dataInfo = res.data
+        }
+      })
+    },
     toDetail (item) {
       this.$router.push('cate-detail')
     }
   },
   mounted () {
     document.title = '基本陈列'
-    this.openId = localStorage.getItem('openId')
+    this.getData()
   }
 }
 </script>
@@ -67,12 +77,14 @@ export default {
   background: #fff;
   padding: 16px;
   margin-bottom: 8px;
-  .img{
-    width: 345px;
-    height: 145px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 15px;
+  .van-image{
+    /deep/img{
+      width: 345px;
+      height: 145px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
   }
   .title{
     font-size: 16px;

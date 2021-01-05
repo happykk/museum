@@ -7,13 +7,16 @@ import store from './store'
 import '@/components/common/reset/index.scss'
 import Vant from 'vant'
 import 'vant/lib/index.css'
-Vue.use(Vant)
+import { Lazyload } from 'vant'
 import { Toast } from 'vant'
 Vue.use(Toast)
+Vue.use(Vant)
+Vue.use(Lazyload)
 // 解决移动端点击延迟问题
 import FastClick from 'fastclick'
 const str = navigator.userAgent.toLowerCase()
 const ver = str.match(/cpu iphone os (.*?) like mac os/)
+
 if (!ver) {
   // 非IOS系统
   FastClick.attach(document.body)
@@ -23,7 +26,6 @@ if (!ver) {
     FastClick.attach(document.body)
   }
 }
-
 Vue.prototype.$ajax = ajax
 var error = Toast
 var isPro = (process.env.NODE_ENV === 'production')

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <router-view v-if="loading"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 <script >
-import {weixinShouquan, getQueryString} from '@/components/common/util'
+// import {weixinShouquan, getQueryString} from '@/components/common/util'
 export default {
   name: 'app',
   data () {
@@ -13,17 +13,17 @@ export default {
     }
   },
   created () {
-    if (localStorage.getItem('openId')) {
-      this.loading = true
-      return
-    }
-    let code = getQueryString('code') // 获取url参数code
-    let state = encodeURIComponent(window.location.href)
-    if (code) { // 拿到code， code传递给后台接口换取opend
-      this.getUserOpenid(code, state)
-    } else {
-      weixinShouquan(state)
-    }
+    // if (localStorage.getItem('openId')) {
+    //   this.loading = true
+    //   return
+    // }
+    // let code = getQueryString('code') // 获取url参数code
+    // let state = encodeURIComponent(window.location.href)
+    // if (code) { // 拿到code， code传递给后台接口换取opend
+    //   this.getUserOpenid(code, state)
+    // } else {
+    //   weixinShouquan(state)
+    // }
   },
   mounted () {
     document.body.addEventListener('focusout', () => {
