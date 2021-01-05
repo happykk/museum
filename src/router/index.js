@@ -57,6 +57,29 @@ const router = new Router({
         component: resolve => require(['@/components/conf/display-list/pro-detail.vue'], resolve)
       }
     ]
+  }, {
+    path: '/good-list',
+    name: '文创商品',
+    component: Empty,
+    redirect: '/good-list/index',
+    children: [
+      {
+        path: 'index',
+        component: resolve => require(['@/components/conf/good-list/index.vue'], resolve)
+      },
+      {
+        path: 'detail',
+        component: resolve => require(['@/components/conf/display-list/detail.vue'], resolve)
+      },
+      {
+        path: 'cate-detail',
+        component: resolve => require(['@/components/conf/display-list/cate-detail.vue'], resolve)
+      },
+      {
+        path: 'pro-detail',
+        component: resolve => require(['@/components/conf/display-list/pro-detail.vue'], resolve)
+      }
+    ]
   }]
 })
 export default router
