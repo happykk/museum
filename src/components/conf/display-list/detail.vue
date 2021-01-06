@@ -28,14 +28,10 @@
     <div class="mod-block desc">
       <h4 class="title">展品列表</h4>
       <div class="content">
-        <ul class="pro-list" @click="toDetail">
-          <li>
-            <i>1</i>
-            <span>条目一</span>
-          </li>
-          <li>
-            <i>2</i>
-            <span>条目二</span>
+        <ul class="pro-list">
+          <li v-for="(item,index) in cates" :key="item.id" @click="toDetail(item)">
+            <i>{{index+1}}</i>
+            <span>{{item.name}}</span>
           </li>
         </ul>
       </div>
@@ -50,6 +46,7 @@ export default {
     return {
       dataInfo: '',
       lists: [],
+      cates: [],
       id: getQueryString('id')
     }
   },
@@ -61,13 +58,37 @@ export default {
         }
       })
     },
+    getTime () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/message/menu', {
+        type: this.type,
+        value: '1'
+      }).then(res => {
+        if (res.code === 0) {
+          this.dataInfo = res.data
+        }
+      })
+    },
+    getCateList () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/act/cate_list', {id: this.id}).then(res => {
+        if (res.code === 0) {
+          this.cates = res.data
+        }
+      })
+    },
     toDetail (item) {
-      this.$router.push('cate-detail')
+      sessionStorage.setItem('cateInfo', JSON.stringify(item))
+      this.$router.push({
+        path: 'cate-detail',
+        query: {
+          id: item.id
+        }
+      })
     }
   },
   mounted () {
-    document.title = '基本陈列'
+    document.title = '详情'
     this.getData()
+    this.getCateList()
   }
 }
 </script>

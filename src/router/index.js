@@ -36,7 +36,7 @@ const router = new Router({
     component: resolve => require(['@/components/conf/guest-book/index.vue'], resolve)
   }, {
     path: '/display-list',
-    name: '基本陈列',
+    name: '看展览',
     component: Empty,
     redirect: '/display-list/index',
     children: [
@@ -59,7 +59,7 @@ const router = new Router({
     ]
   }, {
     path: '/good-list',
-    name: '文创商品',
+    name: '赏文物',
     component: Empty,
     redirect: '/good-list/index',
     children: [

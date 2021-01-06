@@ -1,42 +1,53 @@
 <template>
   <section>
     <div class="header">
-      <h3 class="title">分类名称</h3>
-      <p>分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍</p>
+      <h3 class="title">{{cateInfo.name}}</h3>
+      <div v-html="cateInfo.context"></div>
     </div>
     <div class="list">
-      <div class="list-item" @click="goToPage">
-        <img src="" alt="">
-        <span>藏品名称</span>
-      </div>
-      <div class="list-item">
-        <img src="" alt="">
-        <span>藏品名称</span>
-      </div>
-      <div class="list-item">
-        <img src="" alt="">
-        <span>藏品名称</span>
+      <div class="list-item" @click="goToPage(item)" v-for="item in lists" :key="item.id">
+        <van-image
+          lazy-load
+          :src="'http://admin.xiangtanmuseum.com/static/image/'+item.img"
+        ></van-image>
+        <span>{{item.name}}</span>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import {getQueryString} from '@/components/common/util'
 export default {
   data () {
     return {
       loading: false,
-      lists: []
+      lists: [],
+      cateInfo: '',
+      id: getQueryString('id')
     }
   },
   methods: {
     goToPage (item) {
-      this.$router.push('pro-detail')
+      this.$router.push({
+        path: 'pro-detail',
+        query: {
+          id: item.id
+        }
+      })
+    },
+    getData () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/act/coll_list', {id: this.id}).then(res => {
+        if (res.code === 0) {
+          this.lists = res.data
+        }
+      })
     }
   },
   mounted () {
-    document.title = '基本陈列'
-    this.openId = localStorage.getItem('openId')
+    document.title = '分类详情'
+    this.cateInfo = JSON.parse(sessionStorage.getItem('cateInfo')) || ''
+    this.getData()
   }
 }
 </script>
@@ -53,7 +64,7 @@ export default {
     margin-bottom: 20px;
     border-bottom: 2px solid #fff;
   }
-  p{
+  div{
     font-size: 13px;
     color: rgba(255,255,255,0.80);
     line-height: 21px;
@@ -71,14 +82,14 @@ export default {
     background: #fff;
     border-radius: 10px;
     text-align: center;
-    img{
-      width: 143px;
-      height: 143px;
-      object-fit: cover;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-      display: block;
-      margin: auto;
+    .van-image{
+      /deep/img{
+        width: 143px;
+        height: 145px;
+        object-fit: cover;
+        border-radius: 5px;
+        display: block;
+      }
     }
     span{
       font-size: 14px;

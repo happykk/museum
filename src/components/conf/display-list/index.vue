@@ -29,9 +29,8 @@ export default {
     onLoad () {
       this.$ajax.get('//api.xiangtanmuseum.com/api/act/list', {type: this.type}).then(res => {
         this.loading = false
-        if (res.code === 0 && res.data.length) {
-          this.lists = this.lists.concat(res.data)
-          this.noMore = true
+        if (res.code === 0) {
+          this.lists = res.data
         }
       })
     },
@@ -45,7 +44,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '基本陈列'
+    document.title = (this.type === '1') ? '基本陈列' : '精彩特展'
     this.onLoad()
   }
 }

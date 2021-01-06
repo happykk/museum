@@ -90,7 +90,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '文创商品'
+    document.title = (this.type === '1') ? '典藏概况' : '文创商品'
     this.getCateList()
   }
 }

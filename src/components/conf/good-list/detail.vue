@@ -1,8 +1,8 @@
 <template>
   <section class="mod-block">
-    <van-swipe-item v-for="(image, index) in images" :key="index">
+    <!-- <van-swipe-item v-for="(image, index) in images" :key="index">
       <img v-lazy="image" />
-    </van-swipe-item>
+    </van-swipe-item> -->
     <h3 class="title">{{dataInfo.name}}</h3>
     <p class="desc" v-html="dataInfo.context"></p>
     <!-- <img :src="require('@/assets/images/list-img.png')" class="img"> -->

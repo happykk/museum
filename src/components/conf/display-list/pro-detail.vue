@@ -1,27 +1,37 @@
 <template>
   <section class="mod-block">
-    <h3 class="title">藏品名称</h3>
-    <p class="desc">分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍分类文字介绍</p>
-    <img :src="require('@/assets/images/list-img.png')" class="img">
+    <h3 class="title">{{dataInfo.name}}</h3>
+    <p class="desc" v-html="dataInfo.context"></p>
+    <van-image
+      v-if="dataInfo"
+      lazy-load
+      :src="'http://admin.xiangtanmuseum.com/static/image/'+dataInfo.img"
+    ></van-image>
   </section>
 </template>
 
 <script>
+import {getQueryString} from '@/components/common/util'
 export default {
   data () {
     return {
       loading: false,
-      lists: []
+      dataInfo: '',
+      id: getQueryString('id')
     }
   },
   methods: {
-    goToPage (item) {
-      this.$router.push('pro-detail')
+    getData () {
+      this.$ajax.get('//api.xiangtanmuseum.com/api/act/coll', {id: this.id}).then(res => {
+        if (res.code === 0) {
+          this.dataInfo = res.data
+        }
+      })
     }
   },
   mounted () {
-    document.title = '基本陈列'
-    this.openId = localStorage.getItem('openId')
+    document.title = '展品详情'
+    this.getData()
   }
 }
 </script>
@@ -31,7 +41,7 @@ export default {
   min-height: 100vh;
   padding: 16px 24px;
   background: #fff;
-  img{
+  .van-image{
     max-width: 100%;
     border-radius: 4px;
     margin: 10px 0;
