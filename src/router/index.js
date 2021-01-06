@@ -72,6 +72,21 @@ const router = new Router({
         component: resolve => require(['@/components/conf/good-list/detail.vue'], resolve)
       }
     ]
+  }, {
+    path: '/audio-guide',
+    name: '语音导览',
+    component: Empty,
+    redirect: '/audio-guide/index',
+    children: [
+      {
+        path: 'index',
+        component: resolve => require(['@/components/conf/audio-guide/index.vue'], resolve)
+      },
+      {
+        path: 'detail',
+        component: resolve => require(['@/components/conf/audio-guide/detail.vue'], resolve)
+      }
+    ]
   }]
 })
 export default router
