@@ -127,10 +127,11 @@ export default {
 .list{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   .list-item{
     width: 163px;
     height: 196px;
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 0;
     padding: 10px;
     box-sizing: border-box;
     background: #fff;

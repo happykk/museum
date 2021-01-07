@@ -58,5 +58,8 @@ export default {
   font-size: 14px;
   color: #161616;
   line-height: 24px;
+  /deep/img{
+    max-width: 100%;
+  }
 }
 </style>

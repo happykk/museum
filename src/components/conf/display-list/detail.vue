@@ -23,7 +23,7 @@
     </div>
     <div class="mod-block desc">
       <h4 class="title">主题简介</h4>
-      <div class="content" v-html="dataInfo.context"></div>
+      <div class="desc-content" v-html="dataInfo.context"></div>
     </div>
     <div class="mod-block desc">
       <h4 class="title">展品列表</h4>
@@ -144,11 +144,14 @@ export default {
     color: #161616;
     margin: 5px 0 0;
   }
-  .content{
+  .desc-content{
     margin: 10px 15px 0;
     font-size: 13px;
     color: rgba(22,22,22,0.60);
     line-height: 21px;
+    /deep/img{
+      max-width: 100%;
+    }
   }
 }
 .pro-list{

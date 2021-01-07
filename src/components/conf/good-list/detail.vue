@@ -40,7 +40,7 @@ export default {
   min-height: 100vh;
   padding: 16px 24px;
   background: #fff;
-  img{
+  /deep/img{
     max-width: 100%;
     border-radius: 4px;
     margin: 10px 0;
