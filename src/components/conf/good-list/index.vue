@@ -63,8 +63,7 @@ export default {
         this.loading = false
         if (res.code === 0) {
           this.cates = res.data || []
-          this.id = 0
-          this.cates.unshift({id: 0, name: '全部'})
+          this.id = this.cates[0].id || 0
           this.onLoad()
         }
       })
@@ -102,6 +101,7 @@ export default {
   top: 0;
   width: 100%;
   background: #fff;
+  z-index: 999;
   .tab{
     overflow-x: auto;
     ul{

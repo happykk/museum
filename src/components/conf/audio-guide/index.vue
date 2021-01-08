@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <div class="header">
       <div class="tab">
         <ul>
@@ -14,11 +14,8 @@
       />
     </div>
     <div class="list">
-      <div class="list-item" v-for="item in lists" :key="item.id" @click="goToPage(item)">
-        <van-image
-          lazy-load
-          :src="'http://admin.xiangtanmuseum.com/static/image/'+item.img"
-        ></van-image>
+      <div class="list-item" v-for="(item, index) in lists" :key="item.id" @click="goToPage(item)">
+        <i>{{index+1}}</i>
         <span>{{item.name}}</span>
       </div>
     </div>
@@ -63,8 +60,7 @@ export default {
         this.loading = false
         if (res.code === 0) {
           this.cates = res.data || []
-          this.id = 0
-          this.cates.unshift({id: 0, name: '全部'})
+          this.id = this.cates[0].id || 0
           this.onLoad()
         }
       })
@@ -97,6 +93,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container{
+  min-height: 100vh;
+  background: #fff;
+}
 .header{
   position: sticky;
   top: 0;
@@ -125,33 +125,36 @@ export default {
 }
 
 .list{
-  display: flex;
-  flex-wrap: wrap;
+  border-top: 8px solid #F2F2F2;
+  padding: 0 32px;
+  line-height: normal;
   .list-item{
-    width: 163px;
-    height: 196px;
-    margin: 16px 0 0 16px;
-    padding: 10px;
-    box-sizing: border-box;
-    background: #fff;
-    border-radius: 10px;
-    text-align: center;
-    .van-image{
-      margin: auto;
-      /deep/img{
-        display: block;
-        width: 143px;
-        height: 143px;
-        object-fit: cover;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-      }
+    position: relative;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #F2F2F2;
+    padding-bottom: 10px;
+    &::after{
+      content: '';
+      position: absolute;
+      right: 0;
+      width: 7px;
+      height: 10px;
+      background: url('~@/assets/images/right@2x.png') no-repeat;
+      background-size: 100% 100%;
     }
-    span{
-      font-size: 14px;
-      color: #161616;
-      display: inline-block;
-      margin-top: 10px;;
+    i{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      text-align: center;
+      background: rgba(180,23,0,0.20);
+      border-radius: 2px;
+      font-style: normal;
+      font-size: 10px;
+      color: #B41700;
+      margin-right: 10px;
     }
   }
 }
