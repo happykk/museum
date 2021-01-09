@@ -15,6 +15,7 @@
     "babel-polyfill": "^6.26.0",
     "compass-mixins": "^0.12.10",
     "fastclick": "^1.0.6",
+    "lib-flexible": "^0.3.2",
     "ora": "^5.1.0",
     "postcss-px2rem-exclude": "0.0.6",
     "qrcodejs2": "0.0.2",

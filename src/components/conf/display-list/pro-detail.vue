@@ -2,11 +2,6 @@
   <section class="mod-block">
     <h3 class="title">{{dataInfo.name}}</h3>
     <p class="desc" v-html="dataInfo.context"></p>
-    <van-image
-      v-if="dataInfo"
-      lazy-load
-      :src="'http://admin.xiangtanmuseum.com/static/image/'+dataInfo.img"
-    ></van-image>
   </section>
 </template>
 

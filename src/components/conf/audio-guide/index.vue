@@ -86,7 +86,7 @@ export default {
     }
   },
   mounted () {
-    document.title = (this.type === '1') ? '典藏概况' : '文创商品'
+    document.title = '语音导览'
     this.getCateList()
   }
 }
@@ -102,6 +102,7 @@ export default {
   top: 0;
   width: 100%;
   background: #fff;
+  box-shadow: 0 8px 12px 0	rgba(182, 172, 168, 0.15);
   .tab{
     overflow-x: auto;
     ul{
@@ -155,6 +156,15 @@ export default {
       font-size: 10px;
       color: #B41700;
       margin-right: 10px;
+    }
+    span{
+      flex: 1;
+      display: -webkit-box;
+      /* autoprefixer: off */
+      -webkit-box-orient:vertical;
+      /* autoprefixer: on */
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
   }
 }

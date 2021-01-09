@@ -102,6 +102,7 @@ export default {
   width: 100%;
   background: #fff;
   z-index: 999;
+  box-shadow: 0 8px 12px 0	rgba(182, 172, 168, 0.15);
   .tab{
     overflow-x: auto;
     ul{
@@ -152,7 +153,13 @@ export default {
       font-size: 14px;
       color: #161616;
       display: inline-block;
-      margin-top: 10px;;
+      margin-top: 10px;
+      display: -webkit-box;
+      /* autoprefixer: off */
+      -webkit-box-orient:vertical;
+      /* autoprefixer: on */
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
   }
 }

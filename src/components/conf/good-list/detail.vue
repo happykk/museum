@@ -5,7 +5,6 @@
     </van-swipe-item> -->
     <h3 class="title">{{dataInfo.name}}</h3>
     <p class="desc" v-html="dataInfo.context"></p>
-    <!-- <img :src="require('@/assets/images/list-img.png')" class="img"> -->
   </section>
 </template>
 

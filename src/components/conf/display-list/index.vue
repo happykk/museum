@@ -38,7 +38,8 @@ export default {
       this.$router.push({
         path: 'detail',
         query: {
-          id: item.id
+          id: item.id,
+          type: this.type
         }
       })
     }
@@ -74,6 +75,12 @@ export default {
     font-weight: 500;
     color: #161616;
     margin: 5px 0;
+    display: -webkit-box;
+    /* autoprefixer: off */
+    -webkit-box-orient:vertical;
+    /* autoprefixer: on */
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
   p{
     font-size: 12px;

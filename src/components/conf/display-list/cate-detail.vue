@@ -95,7 +95,13 @@ export default {
       font-size: 14px;
       color: #161616;
       display: inline-block;
-      margin-top: 10px;;
+      margin-top: 10px;
+      display: -webkit-box;
+      /* autoprefixer: off */
+      -webkit-box-orient:vertical;
+      /* autoprefixer: on */
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
   }
 }
