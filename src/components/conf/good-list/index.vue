@@ -128,7 +128,8 @@ export default {
 .list{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 0 16px;
   .list-item{
     width: 163px;
     height: 196px;

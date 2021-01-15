@@ -8,7 +8,7 @@
       </div>
       <van-search
         v-model="word"
-        placeholder="请输入商品名称"
+        placeholder="请输入语音名称"
         @search="onLoad"
         @clear="onCancel"
       />
@@ -148,6 +148,7 @@ export default {
     i{
       width: 16px;
       height: 16px;
+      display: inline-block;
       line-height: 16px;
       text-align: center;
       background: rgba(180,23,0,0.20);
