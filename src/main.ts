@@ -15,7 +15,7 @@ Vue.use(Lazyload)
 // 解决移动端点击延迟问题
 import FastClick from 'fastclick'
 // import "@/assets/js/rem.js" 
-import 'lib-flexible'
+// import 'lib-flexible'
 const str = navigator.userAgent.toLowerCase()
 const ver = str.match(/cpu iphone os (.*?) like mac os/)
 
