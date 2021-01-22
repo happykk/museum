@@ -180,7 +180,7 @@ export default {
   margin-bottom: 8px;
   .van-image{
     /deep/img{
-      width: 345px;
+      width: 100%;
       height: 145px;
       object-fit: cover;
       border-radius: 5px;
