@@ -61,7 +61,7 @@ export default {
   border-radius: 10px;
   margin: 16px 16px 0;
   .van-image{
-    width: 324px;
+    width: 100%;
     height: 138px;
     margin-bottom: 5px;
     /deep/img{
